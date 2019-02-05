@@ -7,7 +7,7 @@ import * as firebase from 'firebase';
 
 var data = []
 
-export default class HomeScreen extends React.Component {
+export default class TestScreen extends React.Component {
   // static navigationOptions = {
   //   header: null,
   // };
@@ -36,17 +36,18 @@ export default class HomeScreen extends React.Component {
     var key = firebase.database().ref('/contacts').push().key
     firebase.database().ref('/contacts').child(key).set({ name: data })
   }
+ 
 
-  // async deleteRow(secId, rowId, rowMap, data) {
+  async deleteRow(secId, rowId, rowMap, data) {
 
-  //   await firebase.database().ref('contacts/' + data.key).set(null)
+    await firebase.database().ref('contacts/' + data.key).set(null)
 
-  //   rowMap[`${secId}${rowId}`].props.closeRow();
-  //   var newData = [...this.state.listViewData];
-  //   newData.splice(rowId, 1)
-  //   this.setState({ listViewData: newData });
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    var newData = [...this.state.listViewData];
+    newData.splice(rowId, 1)
+    this.setState({ listViewData: newData });
 
-  // }
+  }
 
   showInformation() {
   }
@@ -65,7 +66,7 @@ export default class HomeScreen extends React.Component {
             </Item>
         </Content>
 
-        {/* <Content>
+        <Content>
           <List
             enableEmptySections
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
@@ -90,7 +91,7 @@ export default class HomeScreen extends React.Component {
 
           />
 
-        </Content> */}
+        </Content>
       </Container>
     );
   }
