@@ -42,15 +42,20 @@ export default class HomeScreen extends React.Component {
     var key = firebase.database().ref('/Posts').push().key
     firebase.database().ref('/Posts').child(key).set({ topicname: name, 
                                                       text: txt,
-                                                      type: ty, 
+                                                      Posttype:{
+                                                        type: ty,
+                                                        eventdate: edate
+                                                      } , 
                                                       categoryname: cat,
-                                                      eventdate: edate,})
+                                                      })
   }
   setType(check){
     if(check==true){
       this.state.postType="Event"
     }
-    else{this.state.postType="Post"}   
+    else{
+      this.state.postType="Post"
+      }   
   }
   render() {
     return (
