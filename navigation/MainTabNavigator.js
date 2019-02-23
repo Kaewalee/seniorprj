@@ -1,63 +1,31 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React, { Component } from "react";
+import { createAppContainer, createStackNavigator } from "react-navigation";
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import TestScreen from '../screens/TestScreen';
-import AddPostScreen from './../screens/Post/AddPostScreen';
-import PostListScreen from './../screens/Post/PostListScreen';
+import AddPostScreen from "./../screens/Post/AddPostScreen";
+import PostListScreen from "./../screens/Post/PostListScreen";
+import PostDetailsScreen from "./../screens/Post/PostDetailsScreen";
+import CategoriesListScreen from "./../screens/Post/CategoriesListScreen";
+import SubcategoriesListScreen from "../screens/Post/SubcategoriesListScreen";
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-});
+export const Navigator = new createStackNavigator(
+  {
+    AddPostScreen: { screen: AddPostScreen },
+    PostListScreen: { screen: PostListScreen },
+    PostDetailsScreen: { screen: PostDetailsScreen },
+    CategoriesListScreen: { screen: CategoriesListScreen },
+    SubcategoriesListScreen: { screen: SubcategoriesListScreen }
+  },
+  {
+    initialRouteName: "CategoriesListScreen"
+  }
+);
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
+const AppConatiner = createAppContainer(Navigator);
 
-const AddPostStack = createStackNavigator({
-  AddPost: AddPostScreen,
-});
+class StackNavigator extends Component {
+  render() {
+    return <AppConatiner />;
+  }
+}
 
-AddPostStack.navigationOptions = {
-  tabBarLabel: 'AddPost',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
-const PostListStack = createStackNavigator({
-  Test: PostListScreen,
-});
-
-PostListStack.navigationOptions = {
-  tabBarLabel: 'PostList',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
-
-export default createBottomTabNavigator({
-  HomeStack,
-  AddPostStack,
-  PostListStack,
-});
+export default StackNavigator;

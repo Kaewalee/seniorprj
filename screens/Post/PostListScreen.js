@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, ListView } from 'react-native';
-import { Container, Content, Header, Form, Input, Item, Button, Label, Icon, List, ListItem } from 'native-base';
+import { StyleSheet, Text, View, StatusBar, ListView, Image } from 'react-native';
+import { Container, Content, Header, Form, Input, Item, Button, Label, List, ListItem, Icon } from 'native-base';
 import * as firebase from 'firebase';
 
 var data = []
 
 export default class PostListScreen extends React.Component {
-  // static navigationOptions = {
-  //   header: null,
-  // };
+   static navigationOptions = ({ navigation }) => {
+    return {
+    title: navigation.state.params.subcategoryname,
+    headerStyle: {
+      backgroundColor: '#ffe3e3',
+    },  
+    headerBackTitle: null
+  };
+};
 
   constructor(props) {
     super(props);
@@ -17,33 +23,22 @@ export default class PostListScreen extends React.Component {
 
     this.state = {
       listViewData: data,
-      newContact: ""
+      categoryname: "",
+      subcategoryname: ""
     }
   }
-  componentDidMount() {
+  async componentDidMount() {
+    await this.setState({categoryname: this.props.navigation.state.params.categoryname,
+      subcategoryname: this.props.navigation.state.params.subcategoryname})
     var that = this
     firebase.database().ref('/Posts').on('child_added', function (data) {
       var newData = [...that.state.listViewData]
       newData.push(data)
-      that.setState({ listViewData: newData })
+      that.setState({ listViewData: newData })  
     })
+    console.log(this.state.categoryname+"  "+this.state.subcategoryname)
   }
 
-  
-
-  async deleteRow(secId, rowId, rowMap, data) {
-
-    await firebase.database().ref('Posts/' + data.key).set(null)
-
-    rowMap[`${secId}${rowId}`].props.closeRow();
-    var newData = [...this.state.listViewData];
-    newData.splice(rowId, 1)
-    this.setState({ listViewData: newData });
-
-  }
-
-  showInformation() {
-  }
   render() {
     return (
       <Container style={styles.container}>
@@ -54,11 +49,14 @@ export default class PostListScreen extends React.Component {
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
               <ListItem>
-                <Text style={{fontSize:17}}> {data.val().topicname}</Text>
+                <Text style={{fontSize:17}}
+                  onPress={ () => {this.props.navigation.navigate('PostDetailsScreen',  {'dataKey': data.key})}}> 
+                  {data.val().topicname}
+                </Text>
               </ListItem>
             }
             
-            renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+            renderRightHiddenRow={() =>
               <Button full >
                 <Icon name="information-circle" />
               </Button>
@@ -72,10 +70,7 @@ export default class PostListScreen extends React.Component {
       </Container>
     );
   }
-
-  
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
