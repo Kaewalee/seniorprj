@@ -6,6 +6,9 @@ import PostListScreen from "./../screens/Post/PostListScreen";
 import PostDetailsScreen from "./../screens/Post/PostDetailsScreen";
 import CategoriesListScreen from "./../screens/Post/CategoriesListScreen";
 import SubcategoriesListScreen from "../screens/Post/SubcategoriesListScreen";
+import CategoryController from "../screens/admin/CategoryController"
+import SubcategoryController from "../screens/admin/SubcategoryController"
+
 
 export const Navigator = new createStackNavigator(
   {
@@ -13,7 +16,10 @@ export const Navigator = new createStackNavigator(
     PostListScreen: { screen: PostListScreen },
     PostDetailsScreen: { screen: PostDetailsScreen },
     CategoriesListScreen: { screen: CategoriesListScreen },
-    SubcategoriesListScreen: { screen: SubcategoriesListScreen }
+    SubcategoriesListScreen: { screen: SubcategoriesListScreen },
+    CategoryController: {screen: CategoryController},
+    SubcategoryController: {screen: SubcategoryController},
+  
   },
   {
     initialRouteName: "CategoriesListScreen"
